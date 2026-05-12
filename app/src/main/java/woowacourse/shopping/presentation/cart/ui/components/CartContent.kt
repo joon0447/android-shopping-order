@@ -1,6 +1,8 @@
 package woowacourse.shopping.presentation.cart.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -14,6 +16,7 @@ import woowacourse.shopping.presentation.common.model.ProductUiModel
 
 @Composable
 fun CartContent(
+    isLoading: Boolean,
     onDeleteItem: (Long) -> Unit,
     onIncrease: (Long) -> Unit,
     onDecrease: (Long) -> Unit,
@@ -28,6 +31,15 @@ fun CartContent(
             items = cartItems,
             key = { it.product.id },
         ) { item ->
+            if (isLoading) {
+                SkeletonCartCard(
+                    modifier =
+                        Modifier
+                            .height(164.dp)
+                            .padding(horizontal = 18.dp, vertical = 12.dp),
+                )
+                return@items
+            }
             val product = item.product
             CartCard(
                 productName = product.name,
@@ -52,6 +64,7 @@ fun CartContent(
 @Composable
 private fun CartContentPreview() {
     CartContent(
+        isLoading = false,
         onDeleteItem = {},
         onIncrease = {},
         onDecrease = {},
