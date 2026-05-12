@@ -16,8 +16,9 @@ class RemoteProductRepository(
     ): ImmutableList<Product> =
         remoteDataSource
             .fetchProducts(offset, limit)
-            .map { it.toDomain() }
-            .toImmutableList()
+            .map {
+                it.toDomain()
+            }.toImmutableList()
 
     override suspend fun getProductById(id: Long): Product = remoteDataSource.fetchProductById(id).toDomain()
 }
